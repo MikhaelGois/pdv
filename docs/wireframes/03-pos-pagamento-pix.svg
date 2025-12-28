@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600" style="background-color: rgba(0,0,0,0.5); font-family: sans-serif;">
+    <!-- Fundo do Modal -->
+    <rect x="200" y="50" width="400" height="500" fill="white" rx="10" />
+    
+    <!-- Cabeçalho do Modal -->
+    <text x="330" y="100" font-size="22" font-weight="bold">Pague com Pix</text>
+    <line x1="220" y1="120" x2="580" y2="120" stroke="#ccc" />
+    
+    <!-- Valor e QR Code -->
+    <text x="250" y="150" font-size="18">Valor a pagar: R$ 65,50</text>
+    
+    <!-- Placeholder para QR Code -->
+    <rect x="275" y="180" width="250" height="250" fill="#e9ecef" stroke="#ccc" />
+    <text x="340" y="300" fill="#666" font-size="20">QR CODE</text>
+    <path d="M 300 205 L 325 205 L 325 230 M 300 205 L 275 205 L 275 230" fill="none" stroke="#333" stroke-width="5"/>
+    <path d="M 475 205 L 500 205 L 500 230 M 475 205 L 450 205 L 450 230" fill="none" stroke="#333" stroke-width="5"/>
+    <path d="M 300 405 L 325 405 L 325 380 M 300 405 L 275 405 L 275 380" fill="none" stroke="#333" stroke-width="5"/>
+    <path d="M 475 405 L 500 405 L 500 380 M 475 405 L 450 405 L 450 380" fill="none" stroke="#333" stroke-width="5"/>
+
+    <!-- Botão Copia e Cola -->
+    <rect x="300" y="440" width="200" height="40" fill="#007bff" rx="5" />
+    <text x="340" y="465" fill="white" font-size="16">Copiar Código</text>
+
+    <!-- Status -->
+    <text x="310" y="500" font-size="18" fill="#ffc107" font-weight="bold">Aguardando pagamento...</text>
+    
+    <!-- Botão de Cancelar -->
+    <text x="370" y="530" font-size="14" fill="#dc3545">Cancelar</text>
+
+</svg>

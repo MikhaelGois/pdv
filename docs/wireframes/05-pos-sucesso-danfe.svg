@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600" style="background-color: rgba(0,0,0,0.5); font-family: sans-serif;">
+    <!-- Fundo do Modal -->
+    <rect x="200" y="50" width="400" height="500" fill="white" rx="10" />
+    
+    <!-- Cabeçalho do Modal -->
+    <rect x="200" y="50" width="400" height="60" fill="#28a745" rx="10" ry="10"/>
+    <text x="260" y="90" font-size="22" font-weight="bold" fill="white">NFC-e Emitida com Sucesso!</text>
+    
+    <!-- Preview do DANFE -->
+    <text x="220" y="140" font-size="16">DANFE NFC-e - Documento Auxiliar</text>
+    
+    <!-- Placeholder para QR Code do DANFE -->
+    <rect x="325" y="170" width="150" height="150" fill="#e9ecef" stroke="#ccc" />
+    <text x="350" y="245" fill="#666" font-size="14">QR CODE SEFAZ</text>
+
+    <text x="220" y="350" font-size="12" text-anchor="start">Consulte pela Chave de Acesso em:</text>
+    <text x="220" y="365" font-size="12" text-anchor="start">www.nfce.fazenda.sp.gov.br/consulta</text>
+    <text x="220" y="385" font-size="10" text-anchor="start">Chave: 3525 12XX XXXX XXXX XXXX XXXX XXXX XXXX XXXX XXXX</text>
+
+    <!-- Botões de Ação -->
+    <rect x="225" y="420" width="170" height="50" fill="#007bff" rx="5" />
+    <text x="265" y="450" fill="white" font-size="16">Imprimir DANFE</text>
+
+    <rect x="405" y="420" width="170" height="50" fill="#6c757d" rx="5" />
+    <text x="425" y="450" fill="white" font-size="16">Enviar por E-mail</text>
+
+    <!-- Botão Finalizar -->
+    <rect x="300" y="490" width="200" height="40" fill="#17a2b8" rx="5" />
+    <text x="360" y="515" fill="white" font-size="16">Nova Venda</text>
+
+</svg>

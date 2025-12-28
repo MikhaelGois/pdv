@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600" style="background-color: rgba(0,0,0,0.5); font-family: sans-serif;">
+    <!-- Fundo do Modal -->
+    <rect x="200" y="100" width="400" height="400" fill="white" rx="10" />
+    
+    <!-- Cabeçalho do Modal -->
+    <text x="220" y="150" font-size="22" font-weight="bold">Forma de Pagamento</text>
+    <line x1="220" y1="170" x2="580" y2="170" stroke="#ccc" />
+    
+    <text x="480" y="150" font-size="16" fill="#666">X</text> <!-- Botão de fechar -->
+
+    <!-- Valor a Pagar -->
+    <text x="280" y="210" font-size="18">Valor a pagar:</text>
+    <text x="390" y="210" font-size="24" font-weight="bold">R$ 65,50</text>
+    
+    <!-- Botões de Método de Pagamento -->
+    <rect x="250" y="250" width="300" height="50" fill="#007bff" rx="5" />
+    <text x="380" y="280" fill="white" font-size="18">Pix</text>
+
+    <rect x="250" y="310" width="300" height="50" fill="#6c757d" rx="5" />
+    <text x="320" y="340" fill="white" font-size="18">Cartão de Crédito</text>
+
+    <rect x="250" y="370" width="300" height="50" fill="#6c757d" rx="5" />
+    <text x="320" y="400" fill="white" font-size="18">Cartão de Débito</text>
+    
+    <rect x="250" y="430" width="300" height="50" fill="#6c757d" rx="5" />
+    <text x="360" y="460" fill="white" font-size="18">Dinheiro</text>
+
+</svg>

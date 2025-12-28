@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDV Restaurante</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <div class="app-container">
+        <header class="app-header">
+            <h1>PDV - Nova Venda</h1>
+            <span id="user-info">Usuário: ...</span>
+            <button id="logout-btn" style="margin-left: 10px; padding: 5px 10px; cursor: pointer; background-color: #dc3545; color: white; border: none; border-radius: 4px; font-size: 0.9rem;">Sair</button>
+            <button id="cash-btn" style="margin-left: 15px; padding: 5px 10px; cursor: pointer;">Caixa</button>
+            <button id="open-orders-btn" style="margin-left: 10px; padding: 5px 10px; cursor: pointer; background-color: #e67e22; color: white; border: none; border-radius: 4px;">Pedidos (0)</button>
+        </header>
+
+        <main class="app-main">
+            <!-- Seção da Comanda (Itens do Pedido) -->
+            <section class="comanda-section">
+                <div class="comanda-header-inputs">
+                    <h2>Comanda #<input type="number" id="comanda-input" value="123"></h2>
+                    <h2>Mesa #<input type="number" id="mesa-input" value="5"></h2>
+                </div>
+                
+                <div id="order-items-list" class="order-items-list">
+                    <!-- Itens do pedido serão inseridos aqui via JS -->
+                </div>
+                <div class="order-summary">
+                    <div class="summary-row">
+                        <strong>Subtotal</strong>
+                        <strong id="subtotal-value">R$ 0,00</strong>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Seção de Produtos -->
+            <section class="produtos-section">
+                <input type="text" id="search-input" placeholder="Buscar produto...">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <h3>Categorias</h3>
+                    <button id="add-category-btn" style="padding: 2px 8px; cursor: pointer; background: #28a745; color: white; border: none; border-radius: 4px; font-weight: bold;">+</button>
+                </div>
+                <div id="categories-container" class="categories-container">
+                    <!-- Botões de categoria serão inseridos aqui via JS -->
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <h3>Produtos</h3>
+                    <div>
+                        <button id="add-product-btn" style="padding: 5px 10px; cursor: pointer; background: #28a745; color: white; border: none; border-radius: 4px; margin-right: 5px;">+ Novo Produto</button>
+                        <button id="toggle-edit-mode-btn" style="padding: 5px 10px; cursor: pointer; background: #ffc107; border: none; border-radius: 4px;">Modo Edição: OFF</button>
+                    </div>
+                </div>
+                <div id="products-container" class="products-container">
+                    <!-- Botões de produto serão inseridos aqui via JS -->
+                </div>
+            </section>
+        </main>
+
+        <footer class="app-footer">
+            <div class="total-display">
+                <span>Total: </span>
+                <span id="total-value">R$ 0,00</span>
+            </div>
+            <button id="pay-button" class="pay-button">PAGAR</button>
+        </footer>
+    </div>
+
+    <!-- Modal de Pagamento -->
+    <div id="payment-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <h2>Forma de Pagamento</h2>
+            
+            <div style="margin-bottom: 10px; text-align: left;">
+                <label style="display:block; margin-bottom: 5px;">CPF na Nota:</label>
+                <input type="text" id="cpf-input" placeholder="000.000.000-00" style="width: 100%; padding: 8px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px;">
+            </div>
+
+            <div style="display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 10px; align-items: center;">
+                <label>Desconto:</label>
+                <input type="number" id="discount-input" placeholder="0.00" step="0.01" style="width: 80px; padding: 5px; border: 1px solid #ccc; border-radius: 4px;">
+                <select id="discount-type" style="padding: 5px; border: 1px solid #ccc; border-radius: 4px;">
+                    <option value="money">R$</option>
+                    <option value="percent">%</option>
+                </select>
+            </div>
+
+            <div style="background: #f8f9fa; padding: 10px; border-radius: 5px; margin-bottom: 15px;">
+                <div style="display: flex; justify-content: space-between;">
+                    <span>Subtotal:</span>
+                    <span id="payment-subtotal">R$ 0,00</span>
+                </div>
+                <div id="payment-discount-row" style="display: none; justify-content: space-between; color: #dc3545;">
+                    <span>Desconto:</span>
+                    <span id="payment-discount-value">- R$ 0,00</span>
+                </div>
+                <div id="payment-service-row" style="display: flex; justify-content: space-between; color: #28a745;">
+                    <span>Serviço (10%):</span>
+                    <span id="payment-service-fee">R$ 0,00</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 1.2em; margin-top: 5px; border-top: 1px solid #ddd; padding-top: 5px;">
+                    <span>Total:</span>
+                    <span id="payment-modal-total">R$ 0,00</span>
+                </div>
+            </div>
+            
+            <div id="tip-container" style="margin-bottom: 15px; font-size: 1.1rem;">
+                <label style="cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px;">
+                    <input type="checkbox" id="tip-toggle" style="width: 20px; height: 20px;"> Adicionar 10% (Serviço)
+                </label>
+            </div>
+            <div id="automatic-tip-msg" style="display: none; margin-bottom: 15px; color: #28a745; font-weight: bold;">
+                Taxa de serviço (10%) inclusa
+            </div>
+
+            <div class="payment-options">
+                <button class="payment-option-btn" data-method="pix">Pix</button>
+                <button class="payment-option-btn" data-method="cartao">Cartão</button>
+                <button class="payment-option-btn" data-method="dinheiro">Dinheiro</button>
+            </div>
+
+            <!-- Área de Pagamento em Dinheiro (Adicionado) -->
+            <div id="cash-payment-area" style="display: none; margin-top: 15px; border-top: 1px solid #eee; padding-top: 10px;">
+                <label style="display:block; margin-bottom: 5px;">Valor Recebido (R$):</label>
+                <input type="number" id="cash-input" placeholder="0,00" step="0.01" style="width: 100%; padding: 8px; margin-bottom: 10px; box-sizing: border-box;">
+                <div id="cash-change-text" style="font-weight: bold; margin-bottom: 10px;">Troco: R$ 0,00</div>
+                <button id="confirm-cash-btn" style="width: 100%; padding: 10px; background-color: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer;">Confirmar Pagamento</button>
+            </div>
+
+            <button id="print-precheck-btn" style="width: 100%; padding: 10px; background-color: #6c757d; color: white; border: none; border-radius: 4px; cursor: pointer; margin-top: 10px;">Imprimir Conferência</button>
+            <button id="payment-modal-close" class="modal-close-btn">Voltar</button>
+        </div>
+    </div>
+    
+    <!-- Modal de Sucesso/NFC-e Simulado -->
+    <div id="success-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <h2 id="success-modal-title">Pagamento Aprovado!</h2>
+            <p id="success-modal-message">Iniciando emissão da NFC-e...</p>
+            <div id="nfce-simulation" style="display: none; margin-top: 1rem; text-align: center;">
+                <p><strong>NFC-e (Simulada) Emitida com Sucesso!</strong></p>
+                <svg width="100" height="100" style="margin: 1rem auto; display: block;"><rect width="100" height="100" style="fill: #ccc;"/></svg>
+                <p><small>CHAVE: 3525 12XX XXXX XXXX XXXX XXXX XXXX XXXX XXXX XXXX</small></p>
+            </div>
+            <button id="print-receipt-btn" style="margin-top: 10px; background-color: #6c757d; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; width: 100%; margin-bottom: 5px;">Imprimir Comprovante</button>
+            <button id="success-modal-close" class="modal-close-btn">Nova Venda</button>
+        </div>
+    </div>
+
+    <!-- Modal de Controle de Caixa -->
+    <div id="cash-control-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content" style="max-width: 600px; width: 90%;">
+            <h2>Controle de Caixa</h2>
+            
+            <!-- View: Caixa Fechado -->
+            <div id="cash-closed-view" style="display: none;">
+                <p>O caixa está fechado. Informe o valor inicial para começar.</p>
+                <label style="display:block; margin-bottom: 5px;">Valor de Abertura (R$):</label>
+                <input type="number" id="opening-balance-input" placeholder="0,00" step="0.01" style="width: 100%; padding: 8px; margin-bottom: 10px; box-sizing: border-box;">
+                <button id="open-register-btn" style="width: 100%; padding: 10px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">Abrir Caixa</button>
+            </div>
+
+            <!-- View: Caixa Aberto -->
+            <div id="cash-open-view" style="display: none;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 20px; text-align: center;">
+                    <div style="background: #f8f9fa; padding: 10px; border-radius: 4px;">
+                        <small>Abertura</small><br>
+                        <strong id="summary-opening">R$ 0,00</strong>
+                    </div>
+                    <div style="background: #e8f5e9; padding: 10px; border-radius: 4px;">
+                        <small>Vendas</small><br>
+                        <strong id="summary-sales" style="color: green;">R$ 0,00</strong>
+                    </div>
+                    <div style="background: #e3f2fd; padding: 10px; border-radius: 4px;">
+                        <small>Total (Est.)</small><br>
+                        <strong id="summary-total" style="color: #007bff;">R$ 0,00</strong>
+                    </div>
+                </div>
+
+                <h3>Vendas por Categoria</h3>
+                <div style="position: relative; height: 200px; width: 100%; margin-bottom: 20px;">
+                    <canvas id="salesChart"></canvas>
+                </div>
+
+                <h3>Histórico de Vendas (Hoje)</h3>
+                <div style="max-height: 200px; overflow-y: auto; border: 1px solid #eee; margin-bottom: 15px;">
+                    <table style="width: 100%; border-collapse: collapse; font-size: 0.9em;" id="transactions-table">
+                        <thead style="background: #f1f1f1;">
+                            <tr>
+                                <th style="padding: 8px; text-align: left;">Hora</th>
+                                <th style="padding: 8px; text-align: left;">Método</th>
+                                <th style="padding: 8px; text-align: right;">Valor</th>
+                            </tr>
+                        </thead>
+                        <tbody id="transactions-list">
+                            <!-- Linhas inseridas via JS -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3>Histórico de Sessões</h3>
+                <div style="max-height: 150px; overflow-y: auto; border: 1px solid #eee; margin-bottom: 15px;">
+                    <table style="width: 100%; border-collapse: collapse; font-size: 0.85em;">
+                        <thead style="background: #f1f1f1;">
+                            <tr>
+                                <th style="padding: 5px; text-align: left;">Data/Hora</th>
+                                <th style="padding: 5px; text-align: left;">Usuário</th>
+                                <th style="padding: 5px; text-align: left;">Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody id="session-history-list">
+                            <!-- Linhas inseridas via JS -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <button id="open-settings-btn" style="width: 100%; padding: 10px; background-color: #6c757d; color: white; border: none; border-radius: 4px; cursor: pointer; margin-bottom: 10px;">Configurações do Sistema</button>
+                <button id="export-report-btn" style="width: 100%; padding: 10px; background-color: #17a2b8; color: white; border: none; border-radius: 4px; cursor: pointer; margin-bottom: 10px;">Exportar Relatório (Excel)</button>
+                <button id="close-register-btn" style="width: 100%; padding: 10px; background-color: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer;">Fechar Caixa</button>
+            </div>
+
+            <button id="cash-control-close" class="modal-close-btn" style="margin-top: 10px;">Voltar</button>
+        </div>
+    </div>
+
+    <!-- Modal de Edição de Produto -->
+    <div id="product-edit-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <h2>Editar Produto</h2>
+            <input type="hidden" id="edit-product-id">
+            <label style="display:block; text-align: left; margin-bottom: 5px;">Nome:</label>
+            <input type="text" id="edit-product-name" style="width: 100%; padding: 8px; margin-bottom: 15px; box-sizing: border-box;">
+            
+            <label style="display:block; text-align: left; margin-bottom: 5px;">Preço (R$):</label>
+            <input type="number" id="edit-product-price" step="0.01" style="width: 100%; padding: 8px; margin-bottom: 20px; box-sizing: border-box;">
+            
+            <button id="save-product-btn" style="width: 100%; padding: 10px; background-color: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer;">Salvar Alterações</button>
+            <button id="cancel-edit-btn" class="modal-close-btn" style="margin-top: 10px; width: 100%;">Cancelar</button>
+        </div>
+    </div>
+
+    <!-- Modal Adicionar Categoria -->
+    <div id="add-category-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <h2>Nova Categoria</h2>
+            <label style="display:block; text-align: left; margin-bottom: 5px;">Nome da Categoria:</label>
+            <input type="text" id="new-category-name" style="width: 100%; padding: 8px; margin-bottom: 15px; box-sizing: border-box;">
+            <button id="confirm-add-category" style="width: 100%; padding: 10px; background-color: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer;">Adicionar</button>
+            <button id="close-add-category" class="modal-close-btn" style="margin-top: 10px; width: 100%;">Cancelar</button>
+        </div>
+    </div>
+
+    <!-- Modal Adicionar Produto -->
+    <div id="add-product-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <h2>Novo Produto</h2>
+            <label style="display:block; text-align: left; margin-bottom: 5px;">Nome:</label>
+            <input type="text" id="new-product-name" style="width: 100%; padding: 8px; margin-bottom: 10px; box-sizing: border-box;">
+            <label style="display:block; text-align: left; margin-bottom: 5px;">Preço (R$):</label>
+            <input type="number" id="new-product-price" step="0.01" style="width: 100%; padding: 8px; margin-bottom: 10px; box-sizing: border-box;">
+            <label style="display:block; text-align: left; margin-bottom: 5px;">Categoria:</label>
+            <select id="new-product-category" style="width: 100%; padding: 8px; margin-bottom: 15px; box-sizing: border-box;"></select>
+            <button id="confirm-add-product" style="width: 100%; padding: 10px; background-color: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer;">Adicionar</button>
+            <button id="close-add-product" class="modal-close-btn" style="margin-top: 10px; width: 100%;">Cancelar</button>
+        </div>
+    </div>
+
+    <!-- Modal de Pedidos Recebidos (Garçom) -->
+    <div id="incoming-orders-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content" style="max-width: 600px; width: 90%;">
+            <h2>Pedidos Recebidos</h2>
+            <div style="max-height: 300px; overflow-y: auto; margin-bottom: 15px;">
+                <table style="width: 100%; border-collapse: collapse; text-align: left;">
+                    <thead style="background: #f1f1f1;">
+                        <tr>
+                            <th style="padding: 10px;">Hora</th>
+                            <th style="padding: 10px;">Mesa/Cmd</th>
+                            <th style="padding: 10px;">Total</th>
+                            <th style="padding: 10px;">Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody id="incoming-orders-list">
+                        <!-- Pedidos via JS -->
+                    </tbody>
+                </table>
+                <p id="no-orders-msg" style="text-align: center; color: #777; margin-top: 20px;">Nenhum pedido pendente.</p>
+            </div>
+            <button id="close-incoming-orders" class="modal-close-btn">Voltar</button>
+        </div>
+    </div>
+
+    <!-- Modal de Login do Caixa -->
+    <div id="login-modal" class="modal-overlay" style="display: flex;">
+        <div class="modal-content">
+            <h2>Abertura do Sistema</h2>
+            <p>Quem está operando o caixa?</p>
+            <input type="text" id="login-name-input" placeholder="Nome do Operador..." style="width: 100%; padding: 10px; margin-bottom: 15px; box-sizing: border-box; font-size: 1.1rem;">
+            <button id="login-btn" style="width: 100%; padding: 10px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 1.1rem;">Entrar</button>
+        </div>
+    </div>
+
+    <!-- Modal de Configurações (Admin) -->
+    <div id="settings-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <h2>Configurações do Sistema</h2>
+            <div style="margin-bottom: 20px; text-align: left; border: 1px solid #eee; padding: 15px; border-radius: 5px;">
+                <label style="font-weight: bold; display: block; margin-bottom: 10px;">Política de Gorjeta (10%)</label>
+                <label style="display: flex; align-items: center; margin-bottom: 10px; cursor: pointer;">
+                    <input type="radio" name="tip-policy" value="manual" checked style="margin-right: 10px;"> Opcional (Selecionar manualmente)
+                </label>
+                <label style="display: flex; align-items: center; cursor: pointer;">
+                    <input type="radio" name="tip-policy" value="automatic" style="margin-right: 10px;"> Padrão do Estabelecimento (Automático)
+                </label>
+                <label style="font-weight: bold; display: block; margin-bottom: 10px; margin-top: 15px;">Rodapé do Recibo</label>
+                <input type="text" id="receipt-footer-input" placeholder="Ex: Volte Sempre!" style="width: 100%; padding: 8px; margin-bottom: 10px; box-sizing: border-box;">
+            </div>
+            <button id="save-settings-btn" style="width: 100%; padding: 10px; background-color: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; margin-bottom: 10px;">Salvar Configurações</button>
+            <button id="close-settings-btn" class="modal-close-btn" style="width: 100%; margin-top: 0;">Cancelar</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

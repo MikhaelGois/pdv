@@ -1,0 +1,29 @@
+# Dependencias do Node
+node_modules/
+
+# Build do Next.js
+.next/
+out/
+
+# Build do NestJS
+dist/
+
+# Variaveis de ambiente
+.env
+.env.local
+.env.*.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Arquivos de Sistema Operacional
+.DS_Store
+Thumbs.db
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo

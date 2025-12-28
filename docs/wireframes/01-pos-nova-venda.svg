@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600" style="background-color: #f0f0f0; font-family: sans-serif;">
+    <rect x="0" y="0" width="800" height="60" fill="#333" />
+    <text x="20" y="35" fill="white" font-size="20">PDV - Nova Venda</text>
+    <text x="650" y="35" fill="white" font-size="16">Usuário: Caixa 1</text>
+
+    <!-- Coluna da Comanda (Esquerda) -->
+    <rect x="20" y="80" width="360" height="420" fill="white" stroke="#ccc" />
+    <text x="30" y="110" font-size="18" font-weight="bold">Comanda #123 (Mesa 5)</text>
+    
+    <!-- Itens da comanda -->
+    <text x="40" y="150" font-size="14">1x X-Burger</text>
+    <text x="280" y="150" font-size="14">R$ 25,50</text>
+    <text x="40" y="170" font-size="12" fill="#666">- Sem cebola</text>
+    
+    <text x="40" y="200" font-size="14">2x Suco de Laranja</text>
+    <text x="280" y="200" font-size="14">R$ 18,00</text>
+
+    <text x="40" y="230" font-size="14">1x Porção de Batata</text>
+    <text x="280" y="230" font-size="14">R$ 22,00</text>
+    
+    <line x1="20" y1="450" x2="380" y2="450" stroke="#ccc" stroke-width="2"/>
+    <text x="40" y="480" font-size="16" font-weight="bold">Subtotal</text>
+    <text x="280" y="480" font-size="16" font-weight="bold">R$ 65,50</text>
+
+    <!-- Coluna de Produtos (Direita) -->
+    <rect x="400" y="80" width="380" height="420" fill="#f8f9fa" stroke="#ccc" />
+    <rect x="420" y="100" width="340" height="40" fill="white" stroke="#ccc" />
+    <text x="430" y="125" fill="#999">Buscar produto...</text>
+    
+    <text x="420" y="170" font-size="16" font-weight="bold">Categorias</text>
+    <rect x="420" y="190" width="100" height="60" fill="#e9ecef" stroke="#ccc" />
+    <text x="435" y="225">Lanches</text>
+    <rect x="530" y="190" width="100" height="60" fill="#e9ecef" stroke="#ccc" />
+    <text x="545" y="225">Bebidas</text>
+    <rect x="640" y="190" width="100" height="60" fill="#e9ecef" stroke="#ccc" />
+    <text x="650" y="225">Porções</text>
+
+    <text x="420" y="280" font-size="16" font-weight="bold">Itens Frequentes</text>
+    <rect x="420" y="300" width="340" height="40" fill="white" stroke="#ccc" />
+    <text x="430" y="325">X-Tudo</text>
+    <rect x="420" y="350" width="340" height="40" fill="white" stroke="#ccc" />
+    <text x="430" y="375">Coca-Cola Lata</text>
+
+
+    <!-- Rodapé -->
+    <rect x="0" y="520" width="800" height="80" fill="#fff" stroke-top="#ccc" />
+    <text x="40" y="555" font-size="22" font-weight="bold">Total:</text>
+    <text x="120" y="555" font-size="22" font-weight="bold">R$ 65,50</text>
+    
+    <rect x="580" y="535" width="200" height="50" fill="#28a745" rx="5" />
+    <text x="640" y="565" fill="white" font-size="20" font-weight="bold">PAGAR</text>
+</svg>

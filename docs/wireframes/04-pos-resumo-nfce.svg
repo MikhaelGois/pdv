@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600" style="background-color: rgba(0,0,0,0.5); font-family: sans-serif;">
+    <!-- Fundo do Modal -->
+    <rect x="150" y="50" width="500" height="500" fill="white" rx="10" />
+    
+    <!-- Cabeçalho do Modal -->
+    <text x="170" y="100" font-size="22" font-weight="bold">Resumo da Venda e Emissão Fiscal</text>
+    <line x1="170" y1="120" x2="630" y2="120" stroke="#ccc" />
+
+    <!-- Status Pagamento -->
+    <rect x="170" y="140" width="460" height="40" fill="#d4edda" rx="5" />
+    <text x="180" y="165" fill="#155724" font-size="16">Pagamento de R$ 65,50 aprovado!</text>
+    
+    <!-- CPF na Nota -->
+    <text x="170" y="210" font-size="16">CPF na nota (opcional):</text>
+    <rect x="170" y="225" width="300" height="40" fill="white" stroke="#ccc" />
+    <text x="180" y="250" fill="#999">000.000.000-00</text>
+
+    <!-- Resumo dos Itens -->
+    <text x="170" y="300" font-size="16" font-weight="bold">Itens:</text>
+    <text x="180" y="325" font-size="14">1x X-Burger - R$ 25,50</text>
+    <text x="180" y="345" font-size="14">2x Suco de Laranja - R$ 18,00</text>
+    <text x="180" y="365" font-size="14">1x Porção de Batata - R$ 22,00</text>
+    
+    <!-- Botões de Ação -->
+    <rect x="250" y="420" width="300" height="60" fill="#28a745" rx="5" />
+    <text x="340" y="460" fill="white" font-size="20" font-weight="bold">Emitir NFC-e</text>
+
+    <text x="310" y="510" font-size="14" fill="#007bff" text-decoration="underline">Emitir somente recibo não fiscal</text>
+
+</svg>
