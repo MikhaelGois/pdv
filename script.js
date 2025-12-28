@@ -28,7 +28,8 @@ document.addEventListener('DOMContentLoaded', () => {
         settings: {
             tipPolicy: 'manual', // 'manual' | 'automatic'
             receiptFooter: 'Volte Sempre!' // Texto padrão do rodapé
-        }
+        },
+        language: 'pt' // 'pt' | 'en'
     };
 
     let salesChart = null; // Variável para armazenar a instância do gráfico
@@ -52,6 +53,54 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: 8, categoryId: 3, name: 'Anéis de Cebola', price: 24.00 },
         { id: 9, categoryId: 4, name: 'Pudim', price: 12.00 },
     ];
+
+    // ----------------- TRANSLATIONS -----------------
+    const TRANSLATIONS = {
+        pt: {
+            headerTitle: 'PDV - Nova Venda',
+            user: 'Usuário',
+            logout: 'Sair',
+            cashier: 'Caixa',
+            orders: 'Pedidos',
+            tab: 'Comanda',
+            table: 'Mesa',
+            subtotal: 'Subtotal',
+            categories: 'Categorias',
+            products: 'Produtos',
+            newProduct: '+ Novo Produto',
+            editModeOff: 'Modo Edição: OFF',
+            editModeOn: 'Modo Edição: ON',
+            total: 'Total',
+            pay: 'PAGAR',
+            searchPlaceholder: 'Buscar produto...',
+            tipLabel: 'Adicionar 10% (Serviço)',
+            tipIncluded: 'Taxa de serviço (10%) inclusa',
+            discountLabel: 'Desconto:',
+            cpfLabel: 'CPF na Nota:'
+        },
+        en: {
+            headerTitle: 'POS - New Sale',
+            user: 'User',
+            logout: 'Logout',
+            cashier: 'Cashier',
+            orders: 'Orders',
+            tab: 'Tab',
+            table: 'Table',
+            subtotal: 'Subtotal',
+            categories: 'Categories',
+            products: 'Products',
+            newProduct: '+ New Product',
+            editModeOff: 'Edit Mode: OFF',
+            editModeOn: 'Edit Mode: ON',
+            total: 'Total',
+            pay: 'PAY',
+            searchPlaceholder: 'Search product...',
+            tipLabel: 'Add 10% (Service)',
+            tipIncluded: 'Service fee (10%) included',
+            discountLabel: 'Discount:',
+            cpfLabel: 'Tax ID (CPF):'
+        }
+    };
 
     // ----------------- DOM SELECTORS -----------------
     const categoriesContainer = document.getElementById('categories-container');
@@ -132,9 +181,54 @@ document.addEventListener('DOMContentLoaded', () => {
     const saveSettingsBtn = document.getElementById('save-settings-btn');
     const closeSettingsBtn = document.getElementById('close-settings-btn');
     const receiptFooterInput = document.getElementById('receipt-footer-input');
+    const languageSelect = document.getElementById('language-select');
+    const searchInput = document.getElementById('search-input');
 
     // ----------------- RENDER FUNCTIONS -----------------
     const formatCurrency = (value) => `R$ ${value.toFixed(2).replace('.', ',')}`;
+
+    const updateInterfaceLanguage = () => {
+        const t = TRANSLATIONS[state.language];
+        
+        // Header
+        document.querySelector('.app-header h1').textContent = t.headerTitle;
+        logoutBtn.textContent = t.logout;
+        cashBtn.textContent = t.cashier;
+        
+        // Dynamic text updates
+        const openOrders = JSON.parse(localStorage.getItem('restaurant_open_orders')) || [];
+        openOrdersBtn.textContent = `${t.orders} (${openOrders.length})`;
+        
+        if (state.cashierName) {
+            // Re-render user info with translation
+            const timeStr = state.loginTime ? new Date(state.loginTime).toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'}) : '';
+            userInfoDisplay.textContent = `${t.user}: ${state.cashierName} (${timeStr})`;
+        } else {
+            userInfoDisplay.textContent = `${t.user}: ...`;
+        }
+
+        // Main Sections
+        document.querySelector('.comanda-section h2').childNodes[0].textContent = `${t.tab} #`;
+        document.querySelector('.comanda-section h2:nth-child(2)').childNodes[0].textContent = `${t.table} #`;
+        document.querySelector('.order-summary strong').textContent = t.subtotal;
+        
+        document.querySelector('.produtos-section h3').textContent = t.categories;
+        document.querySelector('.produtos-section div:nth-of-type(2) h3').textContent = t.products;
+        addProductBtn.textContent = t.newProduct;
+        toggleEditModeBtn.textContent = state.isEditMode ? t.editModeOn : t.editModeOff;
+        searchInput.placeholder = t.searchPlaceholder;
+        
+        // Footer
+        document.querySelector('.total-display span').textContent = `${t.total}: `;
+        payButton.textContent = t.pay;
+
+        // Modal Labels (Basic example)
+        document.querySelector('#tip-container label').lastChild.textContent = ` ${t.tipLabel}`;
+        document.getElementById('automatic-tip-msg').textContent = t.tipIncluded;
+        
+        // Update select value
+        languageSelect.value = state.language;
+    };
 
     const updatePaymentModalTotals = () => {
         const baseTotal = state.currentOrder.total;
@@ -335,9 +429,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const renderIncomingOrders = () => {
         const openOrders = JSON.parse(localStorage.getItem('restaurant_open_orders')) || [];
-        
+        const t = TRANSLATIONS[state.language];
         // Atualiza contador do botão
-        if (openOrdersBtn) openOrdersBtn.textContent = `Pedidos (${openOrders.length})`;
+        if (openOrdersBtn) openOrdersBtn.textContent = `${t.orders} (${openOrders.length})`;
 
         // Renderiza lista no modal
         incomingOrdersList.innerHTML = '';
@@ -992,7 +1086,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Edit Mode Logic ---
     toggleEditModeBtn.addEventListener('click', () => {
         state.isEditMode = !state.isEditMode;
-        toggleEditModeBtn.textContent = state.isEditMode ? 'Modo Edição: ON' : 'Modo Edição: OFF';
+        const t = TRANSLATIONS[state.language];
+        toggleEditModeBtn.textContent = state.isEditMode ? t.editModeOn : t.editModeOff;
         toggleEditModeBtn.style.background = state.isEditMode ? '#dc3545' : '#ffc107';
         toggleEditModeBtn.style.color = state.isEditMode ? 'white' : 'black';
         renderProducts(); // Re-render to update styles
@@ -1114,6 +1209,13 @@ document.addEventListener('DOMContentLoaded', () => {
         settingsModal.style.display = 'none';
     });
 
+    // --- Language Logic ---
+    languageSelect.addEventListener('change', (e) => {
+        state.language = e.target.value;
+        localStorage.setItem('app_language', state.language);
+        updateInterfaceLanguage();
+    });
+
     // --- Login Logic ---
     const handleLogin = () => {
         const name = loginNameInput.value.trim();
@@ -1124,7 +1226,7 @@ document.addEventListener('DOMContentLoaded', () => {
             sessionStorage.setItem('cashierLoginTime', state.loginTime.toISOString());
             logSession(name, 'Caixa', 'Login');
             
-            userInfoDisplay.textContent = `Usuário: ${name} (Entrou às ${state.loginTime.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'})})`;
+            updateInterfaceLanguage(); // Update to show user name with translated label
             loginModal.style.display = 'none';
         } else {
             alert('Por favor, digite seu nome.');
@@ -1148,7 +1250,7 @@ document.addEventListener('DOMContentLoaded', () => {
             sessionStorage.removeItem('cashierLoginTime');
             state.cashierName = '';
             state.loginTime = null;
-            userInfoDisplay.textContent = 'Usuário: ...';
+            updateInterfaceLanguage();
             loginNameInput.value = '';
             loginModal.style.display = 'flex';
         }
@@ -1160,7 +1262,7 @@ document.addEventListener('DOMContentLoaded', () => {
         state.cashierName = savedCashierName;
         const savedTime = sessionStorage.getItem('cashierLoginTime');
         state.loginTime = savedTime ? new Date(savedTime) : new Date();
-        userInfoDisplay.textContent = `Usuário: ${savedCashierName} (Entrou às ${state.loginTime.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'})})`;
+        // Interface update happens in init()
         loginModal.style.display = 'none';
     }
 
@@ -1206,6 +1308,11 @@ document.addEventListener('DOMContentLoaded', () => {
             state.settings = JSON.parse(savedSettings);
         }
 
+        const savedLanguage = localStorage.getItem('app_language');
+        if (savedLanguage) {
+            state.language = savedLanguage;
+        }
+
         state.activeCategoryId = null; // Show all products initially
         
         loadOrderFromLocalStorage();
@@ -1214,6 +1321,7 @@ document.addEventListener('DOMContentLoaded', () => {
         renderCategories();
         renderProducts();
         renderOrder();
+        updateInterfaceLanguage(); // Apply translations
         
         // Initialize inputs from loaded state
         if (state.currentOrder.id) comandaInput.value = state.currentOrder.id;
