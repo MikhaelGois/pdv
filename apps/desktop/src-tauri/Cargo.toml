@@ -6,11 +6,11 @@ authors = ["Luxottica Team"]
 edition = "2021"
 
 [build-dependencies]
-tauri-build = { version = "^1.5" }
+tauri-build = { version = "^1.5", features = [] }
 
 [dependencies]
 serde = { version = "1", features = ["derive"] }
-tauri = { version = "^1.5", features = ["shell-open", "dialog-all"] }
+tauri = { version = "^1.5", features = [] }
 
 [features]
 default = ["custom-protocol"]

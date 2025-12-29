@@ -4,7 +4,10 @@
     "slug": "restaurant-mobile",
     "version": "0.1.0",
     "sdkVersion": "51.0.0",
-    "platforms": ["ios", "android"],
+    "platforms": [
+      "ios",
+      "android"
+    ],
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -17,6 +20,14 @@
     },
     "assetBundlePatterns": [
       "**/*"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "1234ae30-e13e-4ec1-9c6c-41e3cfbb0ee5"
+      }
+    },
+    "android": {
+      "package": "com.m1kh43l.restaurantmobile"
+    }
   }
 }
