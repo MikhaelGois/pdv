@@ -1,5 +1,7 @@
 # Gerenciador de Restaurante (PDV) / Restaurant Manager (POS)
 
+**🚀 Deploy:** https://github.com/MikhaelGois/pdv
+
 Selecione o idioma / Select language:
 [Português](#português) | [English](#english)
 
@@ -8,6 +10,22 @@ Selecione o idioma / Select language:
 ## <a id="português"></a>Português
 
 Sistema completo de Ponto de Venda (PDV) para restaurantes, composto por uma interface de caixa, interface para garçons, um backend em NestJS e um protótipo frontend em Next.js.
+
+### ⚡ Início Rápido
+
+**Versão Web (Mais Fácil):**
+1. Abra `index.html` no navegador (Interface do Caixa)
+2. Abra `garcom.html` no navegador (Interface do Garçom)
+3. Pronto! ✅
+
+**Criar Instaladores:**
+```powershell
+# Execute o script interativo
+.\criar-instaladores.ps1
+
+# Ou veja instruções detalhadas em:
+README_INSTALADORES.md
+```
 
 ### 🚀 Funcionalidades
 
