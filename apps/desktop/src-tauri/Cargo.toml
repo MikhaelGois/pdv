@@ -1,0 +1,16 @@
+[package]
+name = "restaurant-desktop"
+version = "0.1.0"
+description = "PDV Desktop com Tauri"
+authors = ["Luxottica Team"]
+edition = "2021"
+
+[build-dependencies]
+tauri-build = { version = "^1.5" }
+
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+tauri = { version = "^1.5", features = ["shell-open", "dialog-all"] }
+
+[features]
+default = ["custom-protocol"]

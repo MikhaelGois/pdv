@@ -1,0 +1,63 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+// SQLite for quick local dev; switch to PostgreSQL later
+ datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Category {
+  id       Int       @id @default(autoincrement())
+  name     String    @unique
+  products Product[]
+}
+
+model Product {
+  id         Int      @id @default(autoincrement())
+  name       String
+  price      Float
+  categoryId Int
+  category   Category @relation(fields: [categoryId], references: [id])
+}
+
+model Order {
+  id            Int         @id @default(autoincrement())
+  mesa          Int?
+  status        String      @default("pending")
+  waiterName    String?
+  createdAt     DateTime    @default(now())
+  items         OrderItem[]
+  payments      Payment[]
+  total         Float       @default(0)
+  cpfConsumidor String?
+}
+
+model OrderItem {
+  id         Int    @id @default(autoincrement())
+  orderId    Int
+  order      Order  @relation(fields: [orderId], references: [id])
+  produtoId  Int
+  quantity   Int
+  observacao String?
+  price      Float
+}
+
+model Payment {
+  id        Int      @id @default(autoincrement())
+  orderId   Int
+  order     Order    @relation(fields: [orderId], references: [id])
+  valor     Float
+  metodo    String
+  desconto  Float?
+  gorjeta   Float?
+  createdAt DateTime @default(now())
+}
+
+model User {
+  id           Int    @id @default(autoincrement())
+  username     String @unique
+  passwordHash String
+  role         String // 'GARCOM', 'CAIXA', 'ADMIN'
+}

@@ -1,8 +1,36 @@
 // c:\Users\MBalieroDG\OneDrive - Luxottica Group S.p.A\Área de Trabalho\gerenciador de restaurante\garcom.js
 document.addEventListener('DOMContentLoaded', () => {
-    // Carrega dados compartilhados do LocalStorage (mesmos do Caixa)
-    const products = JSON.parse(localStorage.getItem('products')) || [];
-    const categories = JSON.parse(localStorage.getItem('categories')) || [];
+    // Mock data - mesmos dados do caixa
+    const MOCK_CATEGORIES = [
+        { id: 1, name: 'Lanches' },
+        { id: 2, name: 'Bebidas' },
+        { id: 3, name: 'Porções' },
+        { id: 4, name: 'Sobremesas' },
+    ];
+
+    const MOCK_PRODUCTS = [
+        { id: 1, categoryId: 1, name: 'X-Burger', price: 25.50 },
+        { id: 2, categoryId: 1, name: 'X-Salada', price: 22.00 },
+        { id: 3, categoryId: 1, name: 'X-Tudo', price: 30.00 },
+        { id: 4, categoryId: 2, name: 'Coca-Cola Lata', price: 8.00 },
+        { id: 5, categoryId: 2, name: 'Suco de Laranja', price: 9.00 },
+        { id: 6, categoryId: 2, name: 'Água com Gás', price: 5.00 },
+        { id: 7, categoryId: 3, name: 'Batata Frita', price: 22.00 },
+        { id: 8, categoryId: 3, name: 'Anéis de Cebola', price: 24.00 },
+        { id: 9, categoryId: 4, name: 'Pudim', price: 12.00 },
+    ];
+
+    // Carrega dados compartilhados do LocalStorage ou usa Mock
+    const products = JSON.parse(localStorage.getItem('products')) || MOCK_PRODUCTS;
+    const categories = JSON.parse(localStorage.getItem('categories')) || MOCK_CATEGORIES;
+
+    // Garante que os dados estejam no localStorage para sincronização
+    if (!localStorage.getItem('products')) {
+        localStorage.setItem('products', JSON.stringify(MOCK_PRODUCTS));
+    }
+    if (!localStorage.getItem('categories')) {
+        localStorage.setItem('categories', JSON.stringify(MOCK_CATEGORIES));
+    }
 
     const state = {
         orderItems: [], // { productId, name, price, quantity, notes }

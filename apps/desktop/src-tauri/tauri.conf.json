@@ -1,0 +1,20 @@
+{
+  "package": {
+    "productName": "PDV Restaurante",
+    "version": "0.1.0"
+  },
+  "tauri": {
+    "windows": [
+      {
+        "title": "PDV Restaurante",
+        "width": 1200,
+        "height": 800,
+        "resizable": true
+      }
+    ],
+    "bundle": {
+      "identifier": "com.luxottica.pdv",
+      "active": true
+    }
+  }
+}

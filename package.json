@@ -1,0 +1,17 @@
+{
+  "name": "gerenciador-restaurante-monorepo",
+  "private": true,
+  "version": "0.1.0",
+  "workspaces": [
+    "backend",
+    "frontend",
+    "apps/mobile",
+    "apps/desktop",
+    "packages/shared"
+  ],
+  "scripts": {
+    "install:all": "npm install --workspaces",
+    "build": "echo Use app-specific build scripts",
+    "format": "echo Add formatter per workspace"
+  }
+}

@@ -1226,7 +1226,12 @@ document.addEventListener('DOMContentLoaded', () => {
             sessionStorage.setItem('cashierLoginTime', state.loginTime.toISOString());
             logSession(name, 'Caixa', 'Login');
             
-            updateInterfaceLanguage(); // Update to show user name with translated label
+            // Atualiza display do usuário
+            const timeStr = state.loginTime ? new Date(state.loginTime).toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'}) : '';
+            const t = TRANSLATIONS[state.language];
+            userInfoDisplay.textContent = `${t.user}: ${state.cashierName} (${timeStr})`;
+            
+            // Fecha o modal
             loginModal.style.display = 'none';
         } else {
             alert('Por favor, digite seu nome.');
